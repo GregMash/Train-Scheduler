@@ -2,66 +2,96 @@
 
 // create an array called trains
 const trains = [];
-
-
-
-
-
-
-
-
+//time from moment js
+const now = moment().format('LT');
 
 
 //=============================== Functions ===================================================
 
 function displayCurrentTime() {
-    //time from moment js
-    const now = moment().format('LT');
+    const time = now;
     // grab the time div on html and display it
-    $('#current-time').text(`Current time: ${now}`);
+    $('#current-time').text(`Current time (MST): ${time}`);
 };
+
 
 function getTrain() {
     // prevent the button from reloading the page
     event.preventDefault();
-
     // this creates an object for each train the user adds
     let train = {};
     // this updates the object with the user input from the form
     train.trainName = $('#train-name').val().trim();
     train.destination = $('#train-destination').val().trim();
-    train.trainTime = $('#train-time').val().trim();
+    train.trainTime = $('#hours').val().trim() + ':' + $('#minutes').val().trim();
     train.frequency = $('#train-frequency').val().trim();
-    // this deletes anything the user typed in the form after values were grabbed
-    $('.form-control').val('');
+    //this function will ensure that a number was entered for the frequency
+    checkFrequency(train.frequency);
     // this adds the train into the trains array
     trains.push(train);
-    //This block of code will create the table and fill the values with the user input, prepending it to the table
-    let newTrain = ('<tbody>');
-    for (let i = 0; i < trains.length; i++) {
-        newTrain += '<tr>';
-        newTrain += '<td>' + train.trainName + '</td>';
-        newTrain += '<td>' + train.destination + '</td>';
-        newTrain += '<td>' + train.trainTime+ '</td>';
-        newTrain += '<td>' + train.frequency + '</td>';
-        newTrain += '</tr>';        
-    }
-    newTrain += '</tbody>';
-    $('#trains-table').prepend(newTrain);
+    time(train);
+    storage(train);
+    displayTrain(train);
 };
 
 
+function checkFrequency(x) {
+    const isnum = /^[0-9]+$/.test(x);
+    console.log(isnum);
+};
 
 
+function time (x) {
+    //takes the train time and subtracts 1 year to come before current time
+    x.firstTimeConverted = moment(x.trainTime, "hh:mm").subtract(1, "years");
+    //this gives the difference in minutes from the first time converted and now
+    x.diffTime = moment().diff(moment(x.firstTimeConverted), "minutes");
+    console.log(x.diffTime);
+    // this will give the time since last arrival
+    x.tRemain = x.diffTime % x.frequency;
+    console.log(x.tRemain);
+    // this will give the remaining minutes left until next arrival
+    x.minutesAway = x.frequency - x.tRemain;
+    console.log(x.minutesAway);
+    // this will give the time of the next arrival
+    x.nextArrival = moment().add(x.minutesAway, "minutes").format("hh:mm a");
+    console.log(x.nextArrival);
+};
 
+
+function displayTrain(x) {
+    // this deletes anything the user typed in the form after values were grabbed
+    $('.form-control').val('');
+    //This block of code will create the table and fill the values with the user input, prepending it to the table
+    let newTrain = '<tr>';
+    newTrain += `<th scope= "row"> ${x.trainName} </th>`;
+    newTrain += `<td> ${x.destination} </td>`;
+    newTrain += `<td> ${x.frequency} </td>`;
+    newTrain += `<td> ${x.nextArrival} </td>`;
+    newTrain += `<td> ${x.minutesAway} </td>`;
+    newTrain += '</tr>';
+    $('#trains-table').prepend(newTrain);
+};
+
+function storage (x) {
+        localStorage.setItem('train', JSON.stringify(x)) || [];    
+};
 
 
 //=============================== Main Process ==============================================
 
 //this displays the current time on load
 displayCurrentTime();
-//this will update the current time every 60 seconds
-setInterval(displayCurrentTime, 60000);
+//this will update the current time every second
+setInterval(displayCurrentTime, 1000);
 
+trains.push(JSON.parse(localStorage.getItem("train")));
+if (!Array.isArray(trains)) {
+    trains = [];
+  }
+  //console.log(list);
+  console.log(trains);
+
+//localStorage.clear();
 
 $(document).on('click', '#trainSubmit', getTrain);
