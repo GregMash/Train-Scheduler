@@ -1,7 +1,7 @@
 //=============================== Global Variables ===========================================
 
 // create an array called trains
-const trains = [];
+let trains = [];
 //time from moment js
 const now = moment().format('LT');
 
@@ -26,11 +26,13 @@ function getTrain() {
     train.trainTime = $('#hours').val().trim() + ':' + $('#minutes').val().trim();
     train.frequency = $('#train-frequency').val().trim();
     //this function will ensure that a number was entered for the frequency
-    checkFrequency(train.frequency);
+    if(!checkFrequency(train.frequency)){
+        return;
+    }
     // this adds the train into the trains array
     trains.push(train);
     time(train);
-    storage(train);
+    storage(trains);
     displayTrain(train);
 };
 
@@ -43,7 +45,7 @@ function checkFrequency(x) {
 
 function time (x) {
     //takes the train time and subtracts 1 year to come before current time
-    x.firstTimeConverted = moment(x.trainTime, "hh:mm").subtract(1, "years");
+    x.firstTimeConverted = moment(x.trainTime, "hh:mm");
     //this gives the difference in minutes from the first time converted and now
     x.diffTime = moment().diff(moment(x.firstTimeConverted), "minutes");
     console.log(x.diffTime);
@@ -85,9 +87,13 @@ displayCurrentTime();
 //this will update the current time every second
 setInterval(displayCurrentTime, 1000);
 
-trains.push(JSON.parse(localStorage.getItem("train")));
+trains = (JSON.parse(localStorage.getItem("train")));
 if (!Array.isArray(trains)) {
     trains = [];
+  }
+
+  for (let i = 0; i < trains.length; i++) {
+      displayTrain(trains[i]);
   }
   //console.log(list);
   console.log(trains);
