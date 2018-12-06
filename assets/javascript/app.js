@@ -26,24 +26,24 @@ function getTrain() {
     train.trainTime = $('#hours').val().trim() + ':' + $('#minutes').val().trim();
     train.frequency = $('#train-frequency').val().trim();
     //this function will ensure that a number was entered for the frequency
-    //if(!checkFrequency(train.frequency)){
-       // return;
-    //}
-    // this adds the train into the trains array
-    trains.push(train);
-    time(train);
-    storage(trains);
-    displayTrain(train);
+    if (!checkFrequency(train.frequency)) {
+        return;
+    }
+        // this adds the train into the trains array
+        trains.push(train);
+        time(train);
+        storage(trains);
+        displayTrain(train);   
 };
 
 
 function checkFrequency(x) {
     const isnum = /^[0-9]+$/.test(x);
-    console.log(isnum);
+    return isnum;
 };
 
 
-function time (x) {
+function time(x) {
     //takes the train time and subtracts 1 year to come before current time
     x.firstTimeConverted = moment(x.trainTime, "hh:mm");
     //this gives the difference in minutes from the first time converted and now
@@ -75,8 +75,8 @@ function displayTrain(x) {
     $('#trains-table').prepend(newTrain);
 };
 
-function storage (x) {
-        localStorage.setItem('train', JSON.stringify(x)) || [];    
+function storage(x) {
+    localStorage.setItem('train', JSON.stringify(x)) || [];
 };
 
 
@@ -90,13 +90,13 @@ setInterval(displayCurrentTime, 1000);
 trains = (JSON.parse(localStorage.getItem("train")));
 if (!Array.isArray(trains)) {
     trains = [];
-  }
+}
 
-  for (let i = 0; i < trains.length; i++) {
-      displayTrain(trains[i]);
-  }
-  //console.log(list);
-  console.log(trains);
+for (let i = 0; i < trains.length; i++) {
+    displayTrain(trains[i]);
+}
+//console.log(list);
+console.log(trains);
 
 //localStorage.clear();
 
