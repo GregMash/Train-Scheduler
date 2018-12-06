@@ -34,3 +34,16 @@ margin-top: 5%
  .table {
      border: 4px solid rgb(31, 165, 206);
  }
+
+ form {
+    border: 4px solid rgb(31, 165, 206);  
+    padding: 1%; 
+    margin-top: 5%; 
+ }
+
+ h2 {
+     margin-top: 5%;
+    font-size: 55px;
+    background: rgb(31, 165, 206);
+    padding: 2%;
+ }
