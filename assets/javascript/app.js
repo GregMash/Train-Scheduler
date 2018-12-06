@@ -26,9 +26,9 @@ function getTrain() {
     train.trainTime = $('#hours').val().trim() + ':' + $('#minutes').val().trim();
     train.frequency = $('#train-frequency').val().trim();
     //this function will ensure that a number was entered for the frequency
-    if(!checkFrequency(train.frequency)){
-        return;
-    }
+    //if(!checkFrequency(train.frequency)){
+       // return;
+    //}
     // this adds the train into the trains array
     trains.push(train);
     time(train);
