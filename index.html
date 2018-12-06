@@ -40,13 +40,13 @@
             <label for="formGroupExampleInput">Train Name:</label>
             <input type="text" class="form-control" id="train-name">
         </div>
-        <div class="form-group">
+        <div class="form-group" >
             <label for="formGroupExampleInput2">Destination:</label>
             <input type="text" class="form-control" id="train-destination">
         </div>
         <div class="form-group">
             <label for="formGroupExampleInput">First Train Time (HH:mm - military time):</label>
-            <div class="col-auto my-1">
+            <div class="col-auto my-1" id="hour">
                 <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Hour:</label>
                 <select class="custom-select mr-sm-2" id="hours">
                     <option value="00">00</option>
@@ -75,7 +75,7 @@
                     <option value="23">23</option>
                 </select>
             </div>
-            <div class="col-auto my-1">
+            <div class="col-auto my-1" id="minute">
                 <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Minute:</label>
                 <select class="custom-select mr-sm-2" id="minutes">
                     <option value="00">00</option>
@@ -141,7 +141,7 @@
                 </select>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="form-g">
             <label for="formGroupExampleInput2">Frequency (min):</label>
             <input type="text" class="form-control" id="train-frequency">
         </div>
