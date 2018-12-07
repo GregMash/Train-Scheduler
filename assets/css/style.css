@@ -28,7 +28,7 @@ h1 {
 }
 
 #form-g {
-margin-top: 5%
+    margin-top: 5%
  }
 
  .table {
@@ -46,4 +46,9 @@ margin-top: 5%
     font-size: 55px;
     background: rgb(31, 165, 206);
     padding: 2%;
+ }  
+
+ #form-a {
+     width: 75%;
+     margin: auto;
  }
