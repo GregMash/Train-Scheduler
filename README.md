@@ -9,7 +9,7 @@ This application allows users to add trains to a scheduler. It then calculates e
 
 ## Hosted on GitHub
 
-[App](https://gregmash.github.io/Train-Scheduler/)
+[App](https://gregmash.github.io/train-scheduler/)
 
 ## Technologies utilized
  - HTML
